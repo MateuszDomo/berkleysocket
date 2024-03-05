@@ -3,13 +3,17 @@ CFLAGS = -Wall -Wextra -pedantic
 
 .PHONY: all clean
 
-all: main
+all: server client
 
-program: main.o
+server: server.o 
 	$(CC) $(CFLAGS) -o $@ $^
 
-main.o: main.c
+client: client.o 
+	$(CC) $(CFLAGS) -o $@ $^
+
+%.0: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+
 clean:
-	rm -f main main.o
+	rm -f server client *.0

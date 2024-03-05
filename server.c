@@ -6,7 +6,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-int main(int argc, char *argv[]) {
+int main() {
     int passiveSockFD = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
     int option = 1;
     setsockopt(passiveSockFD, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     struct sockaddr_in6 serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));
     serverAddress.sin6_family = AF_INET6;
-    serverAddress.sin6_port = htons(8080);
+    serverAddress.sin6_port = htons(1234);
     serverAddress.sin6_addr = in6addr_any;
 
     if (bind(passiveSockFD, (const struct sockaddr *)&serverAddress, sizeof(serverAddress)) == -1) {
@@ -53,6 +53,7 @@ int main(int argc, char *argv[]) {
             close(connectedSockFD);
             return 1;
         }
+        printf("%s \n", buffer);
 
 
         char *reply = "HTTP/1.0 200 OK\r\n\r\nHello";
